@@ -6,6 +6,7 @@ import logging
 
 from logging.handlers import RotatingFileHandler
 
+from rich.highlighter import JSONHighlighter
 from rich.logging import RichHandler
 
 from python_tool_template.helpers.helpers_datetime import get_time_formatted
@@ -14,8 +15,7 @@ from python_tool_template import __project__
 
 def get_default_log_filename() -> str:
     """
-    The name of the log file
-    :return:
+    :return: The default log filename formatted with the project name and current time
     """
     return f"{__project__}_{get_time_formatted()}.log"
 
@@ -37,5 +37,5 @@ def get_or_create_logging() -> logging.Logger:
     # _logger.addHandler(logging.StreamHandler())
     _logger.addHandler(
         RotatingFileHandler(os.path.join(os.getcwd(), get_default_log_filename())))
-    _logger.addHandler(RichHandler(rich_tracebacks=True))
+    _logger.addHandler(RichHandler(rich_tracebacks=True, highlighter=JSONHighlighter()))
     return _logger
